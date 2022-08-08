@@ -1,4 +1,7 @@
 #include "main.h"
+#include <stdarg.h>
+#include <stdio.h>
+
 /**
  * _printf - printf function
  * @format: const char pointer
@@ -44,6 +47,5 @@ int _printf(const char *format, ...)
 			i += 2;
 		}
 	}
-	va_end(arg);
 	return (count);
 }
