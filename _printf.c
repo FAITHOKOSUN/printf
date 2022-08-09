@@ -1,6 +1,4 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdio.h>
 
 /**
  * _printf - printf function
@@ -10,42 +8,70 @@
 
 int _printf(const char *format, ...)
 {
-	int count = 0;
-	int i;
-	va_list arg;
 
-	va_start(arg, format);
-	for (i = 0;  format[i] != '\0';)
+	int (*pfunc)(va_list, flags_t *);
+
+	const char *p;
+
+	va_list arguments;
+
+	flags_t flags = {0, 0, 0};
+
+
+       register int count = 0;
+
+	va_start(arguments, format);
+
+	if (!format || (format[0] == '%' && !format[1]))
+
+		return (-1);
+
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+
+		return (-1);
+
+	for (p = format; *p; p++)
+
 	{
-		if (format[i] != '%')
+
+		if (*p == '%')
+
 		{
-			count += _putchar(format[i]);
-			i++;
-		}
-		else if (format[i] == '%' && format[i + 1] != ' ')
-		{
-			switch (format[i + 1])
+
+			p++;
+
+			if (*p == '%')
+
 			{
-				case 'c':
-					count += _putchar(va_arg(arg, int));
-					break;
-				case 's':
-					count += print_string(va_arg(arg, char*));
-					break;
-				case '%':
-					count += _putchar('%');
-					break;
-				case 'd':
-					count += print_num(va_arg(arg, int));
-					break;
-				case 'i':
-					count += print_num(va_arg(arg, int));
-					break;
-				default:
-					break;
+
+				count += _putchar('%');
+
+				continue;
+
 			}
-			i += 2;
-		}
+
+			while (get_flag(*p, &flags))
+
+				p++;
+
+			pfunc = get_print(*p);
+
+			count += (pfunc)
+
+				? pfunc(arguments, &flags)
+
+				: _printf("%%%c", *p);
+
+		} else
+
+			count += _putchar(*p);
+
 	}
+
+	_putchar(-1);
+
+	va_end(arguments);
+
 	return (count);
+
 }
