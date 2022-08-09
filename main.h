@@ -3,15 +3,12 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
-
 /**
- * struct flags - struct containing flags to "turn on"
- * when a flag specifier is passed to _printf()
- * @plus: flag for the '+' character
- * @space: flag for the ' ' character
- * @hash: flag for the '#' character
- */
-
+* struct flags - struct containing flagsd
+* @plus: flag for the '+' character
+* @space: flag for the ' ' character
+* @hash: flag for the '#' character
+*/
 typedef struct flags
 {
 	int plus;
@@ -20,11 +17,10 @@ typedef struct flags
 } flags_t;
 
 /**
- * struct printHandler - struct to choose the right function depending
- * on the format specifier passed to _printf()
- * @c: format specifier
- * @f: pointer to the correct printing function
- */
+* struct printHandler - struct to choose the right function
+* @c: format specifier
+* @f: pointer to correct function
+*/
 typedef struct printHandler
 {
 	char c;
@@ -50,6 +46,5 @@ int print_rot13(va_list l, flags_t *f);
 int print_rev(va_list l, flags_t *f);
 int print_bigS(va_list l, flags_t *f);
 int print_address(va_list l, flags_t *f);
-int print_percent(va_list l, flags_t *f); 
-
-#endif 
+int print_percent(va_list l, flags_t *f);
+#endif
